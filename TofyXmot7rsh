@@ -1,0 +1,81 @@
+-- Anti‑AFK for ONLY_SPIDER99 only
+local plr = game:GetService("Players").LocalPlayer
+if plr.Name ~= "ONLY_SPIDER99" then
+    plr:Kick("لا يمكن تشغيل هذا السكربت إلا على حساب ONLY_SPIDER99.")
+    return
+end
+
+-- 🌈 السكربت الأصلي بعد حذف الحقوق الخارجية
+local gui = Instance.new("ScreenGui", plr:WaitForChild("PlayerGui"))
+gui.Name = "ANTI_AFK_GUI"
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 280, 0, 130)
+frame.Position = UDim2.new(0, 20, 0, 70)
+frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+local rainbowTitle = Instance.new("TextLabel", frame)
+rainbowTitle.Size = UDim2.new(1,0,0.2,0)
+rainbowTitle.Text = "ANTI‑AFK SCRIPT"
+rainbowTitle.Font = Enum.Font.GothamBlack
+rainbowTitle.TextScaled = true
+rainbowTitle.BackgroundTransparency = 1
+rainbowTitle.TextColor3 = Color3.new(1,0,0)
+
+local title = Instance.new("TextLabel", frame)
+title.Position = UDim2.new(0,0,0.2,0)
+title.Size = UDim2.new(1,0,0.2,0)
+title.Text = "💤 Anti‑AFK شغّال"
+title.Font = Enum.Font.GothamBold
+title.TextScaled = true
+title.TextColor3 = Color3.fromRGB(0,255,0)
+title.BackgroundTransparency = 1
+
+local timerLabel = Instance.new("TextLabel", frame)
+timerLabel.Position = UDim2.new(0,0,0.4,0)
+timerLabel.Size = UDim2.new(1,0,0.25,0)
+timerLabel.Text = "⏱️ الوقت في السيرفر: 0 ساعات و 0 دقائق و 0 ثواني"
+timerLabel.Font = Enum.Font.Gotham
+timerLabel.TextScaled = true
+timerLabel.TextColor3 = Color3.fromRGB(255,255,255)
+timerLabel.BackgroundTransparency = 1
+
+local savedLabel = Instance.new("TextLabel", frame)
+savedLabel.Position = UDim2.new(0,0,0.65,0)
+savedLabel.Size = UDim2.new(1,0,0.25,0)
+savedLabel.Text = "✅ تم إنقاذك من الطرد 0 مرة"
+savedLabel.Font = Enum.Font.Gotham
+savedLabel.TextScaled = true
+savedLabel.TextColor3 = Color3.fromRGB(255,255,0)
+savedLabel.BackgroundTransparency = 1
+
+local secondsPassed = 0
+spawn(function()
+    while true do
+        wait(1)
+        secondsPassed += 1
+        local h = math.floor(secondsPassed/3600)
+        local m = math.floor((secondsPassed%3600)/60)
+        local s = secondsPassed%60
+        timerLabel.Text = "⏱️ الوقت في السيرفر: "..h.." ساعات و "..m.." دقائق و "..s.." ثواني"
+    end
+end)
+
+local vu = game:GetService("VirtualUser")
+local savedCount = 0
+plr.Idled:Connect(function()
+    vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    savedCount += 1
+    savedLabel.Text = "✅ تم إنقاذك من الطرد "..savedCount.." مرة"
+end)
+
+spawn(function()
+    while true do
+        wait(0.1)
+        rainbowTitle.TextColor3 = Color3.fromHSV((tick()%5)/5,1,1)
+    end
+end)
